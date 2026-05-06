@@ -1,0 +1,500 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" >
+
+    <xacro:include filename="inertial_macro.xacro"/>
+
+
+    <xacro:property name="chassis_length" value="0.335"/>
+    <xacro:property name="chassis_width" value="0.265"/>
+    <xacro:property name="chassis_height" value="0.18"/>
+    <xacro:property name="chassis_mass" value="5.0"/>
+    <xacro:property name="wheel_radius" value="0.033"/>
+    <xacro:property name="wheel_thickness" value="0.026"/>
+    <xacro:property name="wheel_mass" value="0.05"/>
+    <xacro:property name="wheel_offset_x" value="0.226"/>
+    <xacro:property name="wheel_offset_y" value="0.1485"/>
+    <xacro:property name="wheel_offset_z" value="0.01"/>
+    <xacro:property name="caster_wheel_radius" value="0.01"/>
+    <xacro:property name="caster_wheel_mass" value="0.01"/>
+    <xacro:property name="caster_wheel_offset_x" value="0.075"/>
+    <xacro:property name="caster_wheel_offset_z" value="${wheel_offset_z - wheel_radius + caster_wheel_radius}"/>
+
+    <material name="white">
+        <color rgba="1 1 1 1" />
+    </material>
+
+    <material name="orange">
+        <color rgba="1 0.3 0.1 1"/>
+    </material>
+
+    <material name="blue">
+        <color rgba="0.2 0.2 1 1"/>
+    </material>
+
+    <material name="black">
+        <color rgba="0 0 0 1"/>
+    </material>
+
+    <material name="red">
+        <color rgba="1 0 0 1"/>
+    </material>
+
+    <material name="green">
+        <color rgba="0 1 0 1"/>
+    </material>    
+
+    <!-- BASE LINK -->
+
+    <link name="base_link">
+        <inertial>
+            <mass value="0.01"/>
+            <origin xyz="0 0 0"/>
+            <inertia ixx="0.0001" ixy="0" ixz="0"
+                     iyy="0.0001" iyz="0"
+                     izz="0.0001"/>
+        </inertial>
+    </link>
+
+    <!-- BASE_FOOTPRINT LINK -->
+
+    <joint name="base_footprint_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="base_footprint"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <link name="base_footprint">
+    </link>
+
+    <!-- CHASSIS LINK -->
+
+    <joint name="chassis_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="chassis"/>
+        <origin xyz="${-wheel_offset_x} 0 ${-wheel_offset_z}"/>
+    </joint>
+
+    <link name="chassis">
+        <visual>
+            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+            </geometry>
+            <material name="red"/>
+        </visual>
+        <collision>
+            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}"/>
+            <geometry>
+                <box size="${chassis_length} ${chassis_width} ${chassis_height}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_box mass="0.5" x="${chassis_length}" y="${chassis_width}" z="${chassis_height}">
+            <origin xyz="${chassis_length/2} 0 ${chassis_height/2}" rpy="0 0 0"/>
+        </xacro:inertial_box>
+    </link>
+
+    <gazebo reference="chassis">
+        <material>Gazebo/Red</material>
+    </gazebo>
+
+    
+    <!-- LEFT WHEEL LINK -->
+
+    <joint name="left_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="left_wheel"/>
+        <origin xyz="0 ${wheel_offset_y} 0" rpy="-${pi/2} 0 0" />
+        <axis xyz="0 0 1"/>
+    </joint>
+
+    <link name="left_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="left_wheel">
+        <material>Gazebo/Green</material>
+        <mu1 value="0.7"/>
+        <mu2 value="0.7"/>
+    </gazebo>
+
+
+
+
+    <!-- RIGHT WHEEL LINK -->
+
+    <joint name="right_wheel_joint" type="continuous">
+        <parent link="base_link"/>
+        <child link="right_wheel"/>
+        <origin xyz="0 ${-wheel_offset_y} 0" rpy="${pi/2} 0 0" />
+        <axis xyz="0 0 -1"/>
+    </joint>
+
+    <link name="right_wheel">
+        <visual>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+            </geometry>
+            <material name="green"/>
+        </visual>
+        <collision>
+            <geometry>
+                <cylinder radius="${wheel_radius}" length="${wheel_thickness}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_cylinder mass="${wheel_mass}" length="${wheel_thickness}" radius="${wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_cylinder>
+    </link>
+
+    <gazebo reference="right_wheel">
+        <material>Gazebo/Green</material>
+        <mu1 value="0.7"/>
+        <mu2 value="0.7"/>
+    </gazebo>
+
+
+    <!-- CASTER WHEEL LINK -->
+
+    <joint name="caster_wheel_joint" type="fixed">
+        <parent link="chassis"/>
+        <child link="caster_wheel"/>
+        <origin xyz="${caster_wheel_offset_x} 0 ${caster_wheel_offset_z}"/>
+    </joint>
+
+
+    <link name="caster_wheel">
+        <visual>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}"/>
+            </geometry>
+            <material name="black"/>
+        </visual>
+        <collision>
+            <geometry>
+                <sphere radius="${caster_wheel_radius}"/>
+            </geometry>
+        </collision>
+        <xacro:inertial_sphere mass="${caster_wheel_mass}" radius="${caster_wheel_radius}">
+            <origin xyz="0 0 0" rpy="0 0 0"/>
+        </xacro:inertial_sphere>
+    </link>
+
+    <gazebo reference="caster_wheel">
+        <material>Gazebo/Black</material>
+        <mu1 value="0.1"/>
+        <mu2 value="0.1"/>
+    </gazebo>
+
+	
+	<link name="arm_base_link">
+		<inertial>
+			<mass value="0.1"/>
+			<origin rpy="0 0 0" xyz="0 0 0.025"/>
+			<inertia ixx="0.0027" iyy="0.0027" izz="0.005" ixy="0" ixz="0" iyz="0"/>
+		</inertial>	
+		<visual>
+			<geometry>
+				<cylinder length="0.025" radius="0.05"/>
+			</geometry>
+			<material name="silver">
+				<color rgba="0.75 0.75 0.75 1"/>
+			</material>
+			<origin rpy="0 0 0" xyz="0 0 0.025"/> 
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="0.025" radius="0.05"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0.025"/> 
+		</collision>
+	</link>
+	<joint name="mount_arm" type="fixed">
+      <parent link="chassis"/>
+      <child link="arm_base_link"/>
+      <origin xyz="0.20 0.012 0.15" rpy="0 0 0"/>
+    </joint>
+	<link name="torso">
+		<inertial>
+			<mass value="0.1"/>
+			<origin rpy="0 0 0" xyz="0 0 0.125"/>
+			<inertia ixx="0.02146" iyy="0.02146" izz="0.00125" ixy="0" ixz="0" iyz="0"/>
+		</inertial>	
+		<visual>		
+			<geometry>
+				<cylinder length="0.25" radius="0.025"/>
+			</geometry>
+			<material name="silver">
+				<color rgba="0.75 0.75 0.75 1"/>
+			</material>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.125"/>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="0.25" radius="0.025"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0.0 0.0 0.125"/>
+		</collision>
+	</link>
+	<joint name="hip" type="revolute">
+		<axis xyz="0 0 1"/>
+		<limit lower="-3.14" upper="3.14" effort="20" velocity="1"/>
+		<parent link="arm_base_link"/>
+		<child link="torso"/>
+		<origin rpy="0 0 0" xyz="0 0 0.025"/>
+	</joint>
+	<link name="upper_arm">
+		<inertial>
+			<mass value="0.1"/>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+			<inertia ixx="0.01396" iyy="0.01396" izz="0.00125" ixy="0" ixz="0" iyz="0"/>
+		</inertial>	
+		<visual>
+			<geometry>
+				<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+			<material name="silver"/>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+		</collision>
+	</link>
+	<joint name="shoulder" type="revolute">
+		<axis xyz="0 1 0"/>
+		<limit velocity="1.0" effort="30.0" upper="0.6981" lower="-1.5708"/>
+		<parent link="torso"/>
+		<child link="upper_arm"/>
+		<origin rpy="0 1.5708 0" xyz="0.0 -0.05 0.225"/>
+	</joint>
+	<link name="lower_arm">
+		<inertial>
+			<mass value="0.1"/>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+			<inertia ixx="0.01396" iyy="0.01396" izz="0.00125" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+			<material name="silver"/>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+		</visual>
+		<collision>
+			<geometry>
+				<cylinder length="0.2" radius="0.025"/>
+			</geometry>
+			<origin rpy="0 0 0" xyz="0 0 0.1"/>
+		</collision>
+	</link>
+	<joint name="elbow" type="revolute">
+		<axis xyz="0 1 0"/>
+		<limit velocity="1.0" effort="30.0" upper="1.5708" lower="-1.5708"/>
+		<parent link="upper_arm"/>
+		<child link="lower_arm"/>
+		<origin rpy="0 0 0" xyz="0.0 0.05 0.175"/>
+	</joint>
+	<link name="hand">
+		<inertial>
+			<mass value="0.1"/>
+			<inertia ixx="0.00042" iyy="0.00042" izz="0.00042" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.025 0.025 0.025"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.025 0.025 0.025"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="wrist" type="revolute">
+		<axis xyz="0 1 0"/>
+		<limit lower="-1.57" upper="1.57" effort="20" velocity="1"/>
+		<parent link="lower_arm"/>
+		<child link="hand"/>
+		<origin rpy="0 0 0" xyz="0.0 0.0 0.2125"/>
+	</joint>
+	<link name="left_gripper_base">
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="8.23e-8" iyy="8.23e-8" izz="3.47e-7" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.0025 0.0025 0.01"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.0025 0.0025 0.01"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="l_g_base" type="revolute">
+		<axis xyz="1 0 0"/>
+		<limit velocity="1.0" effort="30.0" lower="0" upper="0.5236"/>
+		<origin rpy="-0.9162 0 0" xyz="0 0.02 0.035"/>
+		<parent link="hand"/>
+		<child link="left_gripper_base"/>
+	</joint>
+	<link name="right_gripper_base">
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="8.23e-8" iyy="8.23e-8" izz="3.47e-7" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.0025 0.0025 0.01"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.0025 0.0025 0.01"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="r_g_base" type="revolute">
+		<axis xyz="1 0 0"/>
+		<limit velocity="1.0" effort="100.0" upper="0" lower="-0.5236"/>
+		<origin rpy="0.9162 0 0" xyz="0 -0.02 0.035"/>
+		<parent link="hand"/>
+		<child link="right_gripper_base"/>
+	</joint>
+	<link name="left_gripper_finger">
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="1.57e-7" iyy="1.57e-7" izz="6.8e-7" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.004 0.004 0.025"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.004 0.004 0.025"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="l_g_finger" type="fixed">
+		<origin rpy="0.3926 0 0" xyz="0 -0.01 0.03"/>
+		<parent link="left_gripper_base"/>
+		<child link="left_gripper_finger"/>
+	</joint>
+	<link name="right_gripper_finger">
+		<inertial>
+			<mass value="0.01"/>
+			<inertia ixx="1.57e-7" iyy="1.57e-7" izz="6.8e-7" ixy="0" ixz="0" iyz="0"/>
+		</inertial>
+		<visual>
+			<geometry>
+				<box size="0.004 0.004 0.025"/>
+			</geometry>
+			<material name="silver"/>
+		</visual>
+		<collision>
+			<geometry>
+				<box size="0.0025 0.0025 0.025"/>
+			</geometry>
+		</collision>
+	</link>
+	<joint name="r_g_finger" type="fixed">
+		<origin rpy="-0.3926 0 0" xyz="0 0.01 0.03"/>
+		<parent link="right_gripper_base"/>
+		<child link="right_gripper_finger"/>
+	</joint>
+
+	<transmission name="tran0">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="hip">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor0">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	<transmission name="tran1">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="shoulder">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor1">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	<transmission name="tran2">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="elbow">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor2">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	<transmission name="tran3">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="wrist">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor3">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	<transmission name="tran4">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="l_g_base">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor4">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+	<transmission name="tran5">
+		<type>transmission_interface/SimpleTransmission</type>
+		<joint name="r_g_base">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+		</joint>
+		<actuator name="motor5">
+			<hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
+			<mechanicalReduction>1</mechanicalReduction>
+		</actuator>
+	</transmission>
+
+	<gazebo>
+		<plugin name="control" filename="libgazebo_ros_control.so"/>
+	</gazebo>
+	<gazebo>
+		<plugin name="joint_state_publisher" filename="libgazebo_ros_joint_state_publisher.so">
+			<jointName>hip, shoulder, elbow, wrist</jointName>
+		</plugin>
+	</gazebo>
+
+
+</robot>

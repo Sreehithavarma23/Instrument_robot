@@ -1,0 +1,14 @@
+appendectomy:
+  - scalpel
+  - forceps
+  - scissors
+
+cardiac:
+  - clamp
+  - retractor
+  - needle_holder
+
+orthopedic:
+  - bone_saw
+  - drill
+  - forceps

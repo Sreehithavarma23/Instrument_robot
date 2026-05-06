@@ -1,0 +1,274 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+<world name="ot_hospital">
+
+<plugin name="link_attacher_plugin" filename="libgazebo_link_attacher.so"/>
+
+<include>
+  <uri>model://sun</uri>
+</include>
+
+<include>
+  <uri>model://ground_plane</uri>
+</include>
+
+
+<!-- ===================== -->
+<!-- FLOOR -->
+<!-- ===================== -->
+
+<model name="hospital_floor">
+  <static>true</static>
+  <link name="floor">
+
+    <collision name="collision">
+      <geometry>
+        <box>
+          <size>20 20 0.1</size>
+        </box>
+      </geometry>
+    </collision>
+
+    <visual name="visual">
+      <geometry>
+        <box>
+          <size>20 20 0.1</size>
+        </box>
+      </geometry>
+      <material>
+        <ambient>0.9 0.9 0.9 1</ambient>
+      </material>
+    </visual>
+
+    <pose>0 0 0 0 0 0</pose>
+
+  </link>
+</model>
+
+
+<!-- ===================== -->
+<!-- OT ROOM WALLS -->
+<!-- ===================== -->
+
+<model name="ot_room">
+<static>true</static>
+
+<link name="wall1">
+<pose>0 5 1.5 0 0 0</pose>
+<collision name="collision">
+<geometry><box><size>10 0.2 3</size></box></geometry>
+</collision>
+<visual name="visual">
+<geometry><box><size>10 0.2 3</size></box></geometry>
+</visual>
+</link>
+
+<link name="wall2">
+<pose>0 -5 1.5 0 0 0</pose>
+<collision name="collision">
+<geometry><box><size>10 0.2 3</size></box></geometry>
+</collision>
+<visual name="visual">
+<geometry><box><size>10 0.2 3</size></box></geometry>
+</visual>
+</link>
+
+<link name="wall3">
+<pose>5 0 1.5 0 0 0</pose>
+<collision name="collision">
+<geometry><box><size>0.2 10 3</size></box></geometry>
+</collision>
+<visual name="visual">
+<geometry><box><size>0.2 10 3</size></box></geometry>
+</visual>
+</link>
+
+<link name="wall4">
+<pose>-5 0 1.5 0 0 0</pose>
+<collision name="collision">
+<geometry><box><size>0.2 10 3</size></box></geometry>
+</collision>
+<visual name="visual">
+<geometry><box><size>0.2 10 3</size></box></geometry>
+</visual>
+</link>
+
+</model>
+
+
+<!-- ===================== -->
+<!-- CORRIDOR -->
+<!-- ===================== -->
+
+<model name="corridor">
+
+<static>true</static>
+
+<link name="corridor_floor">
+
+<pose>-8 0 0.05 0 0 0</pose>
+
+<collision name="collision">
+<geometry>
+<box>
+<size>6 4 0.1</size>
+</box>
+</geometry>
+</collision>
+
+<visual name="visual">
+<geometry>
+<box>
+<size>6 4 0.1</size>
+</box>
+</geometry>
+</visual>
+
+</link>
+
+</model>
+
+
+<!-- ===================== -->
+<!-- SURGERY TABLE -->
+<!-- ===================== -->
+
+<model name="surgery_table">
+<static>true</static>
+
+<link name="link">
+
+<pose>0 0 0.45 0 0 0</pose>
+
+<collision name="collision">
+<geometry>
+<box>
+<size>2 1 0.9</size>
+</box>
+</geometry>
+</collision>
+
+<visual name="visual">
+<geometry>
+<box>
+<size>2 1 0.9</size>
+</box>
+</geometry>
+<material>
+<ambient>0.5 0.5 0.5 1</ambient>
+</material>
+</visual>
+
+</link>
+
+</model>
+
+
+<!-- ===================== -->
+<!-- INSTRUMENT TABLE -->
+<!-- ===================== -->
+
+<model name="instrument_table_1">
+<static>true</static>
+
+<link name="link">
+
+<pose>2 2 0.45 0 0 0</pose>
+
+<collision name="collision">
+<geometry>
+<box>
+<size>1.2 0.6 0.9</size>
+</box>
+</geometry>
+</collision>
+
+<visual name="visual">
+<geometry>
+<box>
+<size>1.2 0.6 0.9</size>
+</box>
+</geometry>
+</visual>
+
+</link>
+
+</model>
+
+
+<model name="instrument_table_2">
+<static>true</static>
+
+<link name="link">
+
+<pose>2 -2 0.45 0 0 0</pose>
+
+<collision name="collision">
+<geometry>
+<box>
+<size>1.2 0.6 0.9</size>
+</box>
+</geometry>
+</collision>
+
+<visual name="visual">
+<geometry>
+<box>
+<size>1.2 0.6 0.9</size>
+</box>
+</geometry>
+</visual>
+
+</link>
+
+</model>
+
+<!-- ===================== -->
+<!-- INSTRUMENTS -->
+<!-- ===================== -->
+
+<!-- Table 1 -->
+<include>
+  <uri>file:///home/sreehitha/instrument_robot_ws/src/surgical_description/models/scalpel/model.sdf</uri>
+  <pose>0 0 1 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://forceps</uri>
+  <pose>2.0 2.0 0.95 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://scissors</uri>
+  <pose>1.8 2.1 0.95 0 0 0</pose>
+</include>
+
+<!-- Table 2 -->
+<include>
+  <uri>model://clamp</uri>
+  <pose>2.2 -2.0 0.95 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://retractor</uri>
+  <pose>2.0 -2.1 0.95 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://needle_holder</uri>
+  <pose>1.8 -2.0 0.95 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://bone_saw</uri>
+  <pose>2.3 -1.8 0.95 0 0 0</pose>
+</include>
+
+<include>
+  <uri>model://drill</uri>
+  <pose>1.9 -1.8 0.95 0 0 0</pose>
+</include>
+
+</world>
+</sdf>

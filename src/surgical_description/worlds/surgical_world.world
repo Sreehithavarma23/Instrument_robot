@@ -1,0 +1,165 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+
+  <world name="surgical_world">
+
+    <!-- 🌞 Sun -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- 🌍 Ground -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- 🏥 OT Room -->
+    <include>
+      <uri>model://ot_room</uri>
+      <pose>0 0 0 0 0 0</pose>
+    </include>
+
+    <!-- ================= INSTRUMENTS ================= -->
+
+    <!-- 🔪 Scalpel -->
+    <model name="scalpel_1">
+      <pose>1.2 -4.6 2.5 0 0 0</pose>
+      <link name="link">
+        <inertial><mass>0.1</mass></inertial>
+
+        <collision name="collision">
+          <geometry>
+            <box><size>0.2 0.02 0.01</size></box>
+          </geometry>
+          <surface>
+            <friction>
+              <ode><mu>100</mu><mu2>100</mu2></ode>
+            </friction>
+          </surface>
+        </collision>
+
+        <visual name="visual">
+          <geometry>
+            <box><size>0.2 0.02 0.01</size></box>
+          </geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🔧 Forceps -->
+    <model name="forceps_1">
+      <pose>1.2 -4.8 2.5 0 0 0</pose>
+      <link name="link">
+        <inertial><mass>0.1</mass></inertial>
+        <collision name="collision">
+          <geometry><box><size>0.18 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.18 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ✂ Scissors -->
+    <model name="scissors_1">
+      <pose>1.2 -4.65 3 0 0 0</pose>
+      <link name="link">
+        <inertial><mass>0.1</mass></inertial>
+        <collision name="collision">
+          <geometry><box><size>0.2 0.03 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 0.03 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🗜 Clamp -->
+    <model name="clamp_1">
+      <pose>1.2 -4.7 3 0 0 0</pose>
+      <link name="link">
+        <inertial><mass>0.1</mass></inertial>
+        <collision name="collision">
+          <geometry><box><size>0.15 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.15 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🧰 Tool 5 -->
+    <model name="tool_5">
+      <pose>1.2 -4.75 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.17 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.17 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🧰 Tool 6 -->
+    <model name="tool_6">
+      <pose>1.5 -4.6 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.18 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.18 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🧰 Tool 7 -->
+    <model name="tool_7">
+      <pose>1.5 -4.65 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.16 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.16 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🧰 Tool 8 -->
+    <model name="tool_8">
+      <pose>1.5 -4.7 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.2 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.2 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 🧰 Tool 9 -->
+    <model name="tool_9">
+      <pose>1.5 -4.75 3 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry><box><size>0.15 0.02 0.01</size></box></geometry>
+          <surface><friction><ode><mu>100</mu><mu2>100</mu2></ode></friction></surface>
+        </collision>
+        <visual name="visual">
+          <geometry><box><size>0.15 0.02 0.01</size></box></geometry>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

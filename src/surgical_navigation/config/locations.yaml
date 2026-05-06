@@ -1,0 +1,14 @@
+operation_table:
+  x: -0.3235789
+  y: 0.9016487
+  yaw: 1.63
+
+sterilization_room:
+  x: -6.3675177
+  y: -10.2025141
+  yaw: 2.83
+
+instrument_room:
+  x: 2.34457
+  y: -9.67203
+  yaw: 1.61

@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro"  name="robot">
+
+    <xacro:include filename="surgical_robot_model.xacro" />
+    <xacro:include filename="gazebo_diffdrive.xacro" />
+    <xacro:include filename="lidar_block.xacro" />
+
+</robot>
